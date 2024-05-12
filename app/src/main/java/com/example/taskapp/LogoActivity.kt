@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.content.Intent
 
-class LogoActivity : AppCompatActivity() {
+class LogoActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_logo)
 
         // Handler to delay navigation
         Handler().postDelayed({
             // Intent to navigate to OnboardActivity01
-  //          val intent = Intent(this, OnboardActivity01::class.java)
+            val intent = Intent(this , OnboardActivity01::class.java)
             startActivity(intent)
             // Finish current activity if you don't want to go back to it
             finish()
