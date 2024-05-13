@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".OnboardActivity03">
 
     <Button
@@ -15,6 +16,7 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:cornerRadius="50px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,10 +41,10 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:text="Get Started With Our Easy-To-Use Task Manager Today."
         android:layout_width="244dp"
         android:layout_height="130dp"
         android:gravity="center"
+        android:text="Get Started With Our Easy-To-Use Task Manager Today."
         android:textColor="#000A39"
         android:textSize="18sp"
         android:textStyle="bold"
