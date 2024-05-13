@@ -23,16 +23,33 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.passwordEditText)
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox)
 
+        rememberMeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                // Clear saved username and password if checkbox is unchecked
+                PreferenceHelper.setStringPreference(this, PreferenceHelper.KEY_USERNAME, "")
+                PreferenceHelper.setStringPreference(this, PreferenceHelper.KEY_PASSWORD, "")
+            }
+        }
+
+        val savedUsername = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_USERNAME)
+        val savedPassword = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_PASSWORD)
+
+        if (!savedUsername.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
+            usernameEditText.setText(savedUsername)
+            passwordEditText.setText(savedPassword)
+            rememberMeCheckBox.isChecked = true
+        }
+
         val loginButton: Button = findViewById(R.id.loginButton)
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
             if (isValidInput(username, password)) {
-                val savedUsername = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_USERNAME)
-                val savedPassword = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_PASSWORD)
+                val correctUsername = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_USERNAME)
+                val correctPassword = PreferenceHelper.getStringPreference(this, PreferenceHelper.KEY_PASSWORD)
 
-                if (username == savedUsername && password == savedPassword) {
+                if (username == correctUsername && password == correctPassword) {
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
                     // Navigate to HomeActivity after successful login
@@ -60,4 +77,3 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 }
-
