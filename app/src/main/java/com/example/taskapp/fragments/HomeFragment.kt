@@ -1,5 +1,6 @@
 package com.example.taskapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
+import com.example.taskapp.WatchActivity
 import com.example.taskapp.adapter.TaskAdapter
 import com.example.taskapp.databinding.FragmentHomeBinding
 import com.example.taskapp.model.Task
@@ -39,15 +41,19 @@ class HomeFragment : Fragment(R.layout.fragment_home),SearchView.OnQueryTextList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val menuHost:MenuHost = requireActivity()
-        menuHost.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.RESUMED)
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         taskViewModel = (activity as MainActivity).taskViewModel
-        setupHomeRecyclearView()
+        setupHomeRecyclerView()
 
-        binding.addNoteFab.setOnClickListener{
+        binding.addNoteFab.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addFragment)
+        }
+
+        binding.imageButton5.setOnClickListener {
+            val intent = Intent(requireContext(), WatchActivity::class.java)
+            startActivity(intent)
         }
     }
     private  fun updateUI(task:List<Task>?){
@@ -61,20 +67,21 @@ class HomeFragment : Fragment(R.layout.fragment_home),SearchView.OnQueryTextList
             }
         }
     }
-    private fun setupHomeRecyclearView(){
+    private fun setupHomeRecyclerView() {
         taskAdapter = TaskAdapter()
         binding.homeRecyclerView.apply {
-            layoutManager = StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             adapter = taskAdapter
         }
         activity?.let {
-            taskViewModel.getAllTask().observe(viewLifecycleOwner){ task ->
+            taskViewModel.getAllTask().observe(viewLifecycleOwner) { task ->
                 taskAdapter.differ.submitList(task)
                 updateUI(task)
             }
         }
     }
+
 
     private fun searchTask(query: String?){
         val SearchQuery ="%$query"
